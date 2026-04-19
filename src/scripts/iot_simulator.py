@@ -24,7 +24,7 @@ LOCATIONS = [
 
 def register_test_drugs():
     """Регистрация тестовых препаратов"""
-    print("📝 Registering test drugs...")
+    print("Registering test drugs...")
 
     test_drugs = [
         {
@@ -59,18 +59,18 @@ def register_test_drugs():
                 f"{API_URL}/api/drugs/register", json=drug, timeout=5
             )
             if response.status_code == 200:
-                print(f"   ✅ Registered {drug['serialNumber']}")
+                print(f"   Registered {drug['serialNumber']}")
             else:
-                print(f"   ⚠️ Failed: {response.text}")
+                print(f"   Failed: {response.text}")
         except Exception as e:
-            print(f"   ❌ Error: {e}")
+            print(f"   Error: {e}")
 
 
 def simulate_temperature_logging(
     serial_number: str, duration_seconds: int = 30, interval: int = 3
 ):
     """Симуляция логирования температуры"""
-    print(f"\n🌡️ Simulating for {serial_number}")
+    print(f"\nSimulating for {serial_number}")
 
     start_time = time.time()
     reading_count = 0
@@ -78,7 +78,7 @@ def simulate_temperature_logging(
     while time.time() - start_time < duration_seconds:
         if random.random() < 0.15:
             temp = random.uniform(-2.0, 1.9) or random.uniform(8.1, 15.0)
-            breach = "⚠️ BREACH"
+            breach = "BREACH"
         else:
             temp = random.uniform(2.0, 8.0)
             breach = "✓"
@@ -101,7 +101,7 @@ def simulate_temperature_logging(
                 data = response.json()
                 print(f"   [{reading_count:2d}] {temp:4.1f}°C - {breach}")
                 if "BLOCKED" in data.get("message", ""):
-                    print("   🛑 Drug BLOCKED!")
+                    print("   Drug BLOCKED!")
                     break
         except Exception as e:
             print(f"   ❌ Error: {e}")
@@ -121,11 +121,11 @@ def run_simulation():
     try:
         response = requests.get(f"{API_URL}/health", timeout=5)
         if response.status_code != 200:
-            print("❌ API not responding")
+            print("API not responding")
             return
-        print("✅ API available")
+        print("API available")
     except Exception as e:
-        print(f"❌ Cannot connect: {e}")
+        print(f"Cannot connect: {e}")
         return
 
     register_test_drugs()
@@ -134,7 +134,7 @@ def run_simulation():
         simulate_temperature_logging(serial)
         time.sleep(2)
 
-    print("\n✅ Simulation completed!")
+    print("\nSimulation completed!")
 
 
 if __name__ == "__main__":

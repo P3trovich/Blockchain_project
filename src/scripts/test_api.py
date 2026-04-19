@@ -15,19 +15,19 @@ API_URL = os.environ.get("API_URL", "http://localhost:8000")
 
 
 def test_health():
-    print("\n🏥 Testing health endpoint...")
+    print("\nTesting health endpoint...")
     try:
         response = requests.get(f"{API_URL}/health", timeout=5)
         print(f"   Status: {response.status_code}")
         print(f"   Response: {response.json()}")
         return response.status_code == 200
     except requests.exceptions.ConnectionError:
-        print(f"   ❌ Cannot connect to API at {API_URL}")
+        print(f"   Cannot connect to API at {API_URL}")
         return False
 
 
 def test_register_drug():
-    print("\n📦 Testing drug registration...")
+    print("\nTesting drug registration...")
 
     data = {
         "gtin": "4601234567890",
@@ -49,7 +49,7 @@ def test_register_drug():
 
 
 def test_verify_drug(serial_number: str):
-    print(f"\n🔍 Verifying drug {serial_number}...")
+    print(f"\nVerifying drug {serial_number}...")
     response = requests.get(f"{API_URL}/api/drugs/verify/{serial_number}")
     print(f"   Status: {response.status_code}")
     print(f"   Response: {response.json()}")
@@ -57,7 +57,7 @@ def test_verify_drug(serial_number: str):
 
 
 def test_record_temperature(serial_number: str):
-    print("\n🌡️ Recording temperature...")
+    print("\nRecording temperature...")
     data = {
         "serialNumber": serial_number,
         "temperature": 3.5,
@@ -70,7 +70,7 @@ def test_record_temperature(serial_number: str):
 
 
 def test_get_statistics():
-    print("\n📈 Getting system statistics...")
+    print("\nGetting system statistics...")
     response = requests.get(f"{API_URL}/api/statistics")
     print(f"   Status: {response.status_code}")
     if response.status_code == 200:
@@ -90,12 +90,12 @@ def run_full_test():
     time.sleep(2)
 
     if not test_health():
-        print("\n❌ API is not responding!")
+        print("\nAPI is not responding!")
         print("   Make sure the container is running: docker-compose up -d")
         return False
 
     if not test_register_drug():
-        print("\n❌ Registration failed")
+        print("\nRegistration failed")
         return False
 
     serial = "SN-DOCKER-001"
