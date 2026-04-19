@@ -2,14 +2,14 @@
 Модели данных блокчейна: препараты и транзакции
 """
 
-from datetime import datetime, timezone
-from enum import Enum
+from datetime import datetime
+from enum import StrEnum
 from typing import Any, Dict, List, Optional
 
-from .crypto import CryptoUtils
+from . import crypto
 
 
-class TransactionType(str, Enum):
+class TransactionType(StrEnum):
     """Типы транзакций в системе"""
 
     REGISTER = "REGISTER"  # Регистрация препарата
@@ -35,7 +35,7 @@ class Transaction:
         data: Dict[str, Any],
         private_key: str = "default_key",
     ):
-        self.tx_id = CryptoUtils.calculate_hash(
+        self.tx_id = crypto.calculate_hash(
             {
                 "type": tx_type,
                 "serial": serial_number,
@@ -62,7 +62,7 @@ class Transaction:
         }
 
         # Создание подписи
-        self.signature = CryptoUtils.calculate_hash(
+        self.signature = crypto.calculate_hash(
             {**tx_data_for_hash, "private_key": private_key}
         )
 
@@ -144,9 +144,7 @@ class DrugPackage:
 
     def is_expired(self) -> bool:
         """Проверка срока годности"""
-        print(datetime.now(timezone.utc))
-        print(self.expiry_date)
-        return datetime.now(timezone.utc) > self.expiry_date
+        return datetime.now() > self.expiry_date
 
     def add_transaction(self, tx: Transaction):
         """Добавление транзакции в историю препарата"""

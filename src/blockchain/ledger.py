@@ -6,7 +6,7 @@
 from datetime import datetime
 from typing import Dict, List, Optional, Tuple
 
-from .crypto import CryptoUtils
+from . import crypto
 from .models import DrugPackage, Transaction, TransactionType
 
 
@@ -29,7 +29,7 @@ class BlockchainLedger:
     def _update_state_hash(self):
         """Обновление хэша состояния (симуляция)"""
         combined = "".join([d.serial_number for d in self._drugs.values()])
-        self._state_hash = CryptoUtils.calculate_hash(
+        self._state_hash = crypto.calculate_hash(
             {"drugs": combined, "time": datetime.now().isoformat()}
         )
 
