@@ -1,0 +1,59 @@
+name: pharma-track
+
+services:
+  # Основной API сервер
+  api:
+    build: .
+    container_name: pharma-track-api
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - POETRY_VIRTUALENVS_CREATE=false
+    restart: unless-stopped
+    networks:
+      - pharma-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.pharma.rule=Host(`pharma.local`)"
+
+  # Тестовый клиент (запускается один раз)
+  test:
+    build: .
+    container_name: pharma-track-test
+    depends_on:
+      api:
+        condition: service_healthy
+    environment:
+      - API_URL=http://api:8000
+    command: python src/scripts/test_api.py
+    networks:
+      - pharma-network
+    profiles:
+      - test
+    restart: "no"
+
+  # IoT симулятор
+  iot-simulator:
+    build: .
+    container_name: pharma-track-iot
+    depends_on:
+      api:
+        condition: service_healthy
+    environment:
+      - API_URL=http://api:8000
+    command: python src/scripts/iot_simulator.py
+    networks:
+      - pharma-network
+    profiles:
+      - iot
+    restart: "no"
+
+
+
+
+
+networks:
+  pharma-network:
+    name: pharma-track-network
+    driver: bridge

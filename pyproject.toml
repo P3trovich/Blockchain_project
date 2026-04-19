@@ -1,0 +1,76 @@
+[project]
+name = "blockchain"
+version = "2.3.2"
+description = "Blockchain project"
+authors = [
+    {name = "Your Name",email = "you@example.com"}
+]
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi (>=0.136.0,<0.137.0)",
+    "uvicorn (>=0.44.0,<0.45.0)",
+    "email-validator (>=2.3.0,<3.0.0)"
+]
+
+package-mode = false
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+python_version = "3.13"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+disallow_untyped_defs = false
+check_untyped_defs = true
+
+# Правила Ruff (все основные правила)
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "N",   # pep8-naming
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "SIM", # flake8-simplify
+    "RET", # flake8-return
+    "ARG", # flake8-unused-arguments
+    "PTH", # flake8-use-pathlib
+    "RUF", # Ruff specific rules
+]
+
+# Игнорируемые правила
+ignore = [
+    "E501",   # line too long (handled by formatter)
+    "B008",   # do not perform function calls in argument defaults
+    "C901",   # too complex
+]
+
+# Допустимые имена для переменных (без проверки нотации)
+extend-immutable-calls = ["fastapi.Depends", "fastapi.Query", "fastapi.Body"]
+
+[tool.ruff.format]
+# Отступы
+indent-style = "space"
+
+# Кавычки
+quote-style = "double"
+
+# Переносы строк
+line-ending = "auto"
+
+# Сортировка импортов
+docstring-code-format = true
+
+[tool.ruff.lint]
+# Сортировка импортов
+isort.known-first-party = ["blockchain", "api"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101", "ARG001"]
+"src/scripts/*" = ["S101", "ARG001", "T201"]
