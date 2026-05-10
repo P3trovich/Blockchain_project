@@ -1,1 +1,26 @@
+node_modules/
+artifacts/
+cache/
+typechain/
+typechain-types/
+
+# деплой пишет сюда адрес и ABI — пересоздаётся при каждом запуске
+frontend/contract.json
+
+# Python
+__pycache__/
 *.pyc
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# env
+.env
+.env.local

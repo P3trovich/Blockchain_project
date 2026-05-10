@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>PharmaTrack — реестр лекарств</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>PharmaTrack</h1>
+    <p class="sub">Блокчейн-реестр для отслеживания лекарств. Демо на локальной сети Hardhat.</p>
+    <div class="wallet">
+      <button id="connect">Подключить кошелёк</button>
+      <span id="account">не подключено</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Проверить препарат</h2>
+      <p class="hint">Публичный запрос — не требует кошелька. Любой человек со штрих-кодом упаковки может убедиться, что препарат настоящий.</p>
+      <div class="row">
+        <input id="verifySerial" placeholder="серийный номер, напр. SN-001" />
+        <button id="verifyBtn">Проверить</button>
+      </div>
+      <pre id="verifyOut"></pre>
+    </section>
+
+    <section class="card">
+      <h2>Зарегистрировать препарат</h2>
+      <p class="hint">Доступно только аккаунтам с ролью MANUFACTURER.</p>
+      <div class="grid">
+        <input id="regGtin" placeholder="GTIN" value="0461234567890" />
+        <input id="regSerial" placeholder="Серийный номер" value="SN-001" />
+        <input id="regName" placeholder="Название" value="Парацетамол 500мг" />
+        <input id="regBatch" placeholder="Номер партии" value="BATCH-2026-05" />
+        <input id="regMin" placeholder="Мин. темп. (×10°C)" value="20" />
+        <input id="regMax" placeholder="Макс. темп. (×10°C)" value="80" />
+        <input id="regCert" placeholder="Рег. удостоверение" value="RU.RC.001" />
+        <input id="regLic" placeholder="Лицензия завода" value="MFR-LIC-42" />
+      </div>
+      <button id="registerBtn">Зарегистрировать</button>
+      <pre id="registerOut"></pre>
+    </section>
+
+    <section class="card">
+      <h2>Записать температуру (IoT)</h2>
+      <p class="hint">Имитация данных от датчика во время перевозки. Роль LOGISTICS.</p>
+      <div class="row">
+        <input id="tempSerial" placeholder="серийник" value="SN-001" />
+        <input id="tempValue" placeholder="температура ×10°C" value="50" />
+        <input id="tempLoc" placeholder="место" value="склад-1" />
+        <button id="tempBtn">Отправить</button>
+      </div>
+      <pre id="tempOut"></pre>
+    </section>
+
+    <section class="card">
+      <h2>История препарата</h2>
+      <div class="row">
+        <input id="histSerial" placeholder="серийник" />
+        <button id="histBtn">Загрузить</button>
+      </div>
+      <pre id="histOut"></pre>
+    </section>
+
+    <section class="card">
+      <h2>Передачи и продажа</h2>
+      <p class="hint">Каждый шаг — от своего аккаунта (MetaMask). Переключайтесь между аккаунтами hardhat-ноды, чтобы пройти всю цепочку.</p>
+      <div class="row">
+        <input id="moveSerial" placeholder="серийник" value="SN-001" />
+        <input id="moveLicense" placeholder="лицензия (для перемещений)" value="LIC-1" />
+      </div>
+      <div class="row">
+        <button data-action="toDistributor">→ дистрибьютору</button>
+        <button data-action="toPharmacy">→ в аптеку</button>
+        <button data-action="sell">→ продать пациенту</button>
+        <button data-action="block" class="danger">блокировать (регулятор)</button>
+      </div>
+      <pre id="moveOut"></pre>
+    </section>
+  </main>
+
+  <footer>
+    <p>Адрес контракта: <code id="contractAddr">—</code></p>
+    <p>Curiculum: итоговый проект по блокчейну, май 2026.</p>
+  </footer>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
